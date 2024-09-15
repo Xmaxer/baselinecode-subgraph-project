@@ -26,6 +26,8 @@ const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
 const zipPath = path.join(projectDir, 'template.zip');
 const packageJsonPath = path.join(projectDir, 'package.json');
+const envFilePath = path.join(projectDir, '.env');
+const loggerFilePath = path.join(projectDir, 'src/utils/logger.mts');
 
 function getDownloadedFilePath(fileName: string): string {
   if (!templateZippedPath) {
@@ -106,8 +108,35 @@ function getDownloadedFilePath(fileName: string): string {
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
 
-  spawn.sync('npm', ['install'], { stdio: 'inherit', cwd: projectDir });
-  spawn.sync('git', ['init'], { stdio: 'inherit', cwd: projectDir });
+  fs.writeFileSync(
+    envFilePath,
+    `# This will be loaded by dotenv https://www.npmjs.com/package/dotenv
+      SERVER_PORT=4000
+      NODE_ENV=local
+      `,
+  );
+
+  const rawLoggerFile = fs.readFileSync(loggerFilePath, 'utf-8');
+
+  const updatedRawLoggerFile = rawLoggerFile.replace(
+    '{{appName}}',
+    projectName,
+  );
+
+  fs.writeFileSync(loggerFilePath, updatedRawLoggerFile);
+
+  const runInDirectory = (...commands: Array<string>) => {
+    spawn.sync(commands[0], commands.slice(1), {
+      stdio: 'inherit',
+      cwd: projectDir,
+    });
+  };
+
+  runInDirectory('git', 'init');
+  runInDirectory('npm', 'install');
+  runInDirectory('npm', 'run', 'prettier');
+  runInDirectory('git', 'add', '.');
+  runInDirectory('git', 'commit', '-m', '"Initial commit"');
 
   console.log(`Project created in ${projectDir}`);
 })().then(() => {
