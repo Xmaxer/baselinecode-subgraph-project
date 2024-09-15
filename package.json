@@ -1,5 +1,5 @@
 {
-  "name": "baselinecode-subraph-project",
+  "name": "@baselinecode/subraph-project",
   "version": "1.0.0",
   "keywords": [
     "node",
@@ -13,7 +13,7 @@
   "author": "Kevin Jakubauskas",
   "type": "commonjs",
   "bin": {
-    "baselinecode-subraph-project": "./main.js"
+    "@baselinecode/subraph-project": "./main.js"
   },
   "scripts": {
     "build": "tsx build.mts",
