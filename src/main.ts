@@ -99,7 +99,9 @@ function getDownloadedFilePath(fileName: string): string {
 
   const packageJson = require(packageJsonPath);
 
-  const newPackageJson = { ...packageJson, name: projectName };
+  const newPackageJson = JSON.parse(
+    JSON.stringify(packageJson).replace('{{projectName}}', projectName),
+  );
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
 
@@ -131,7 +133,7 @@ function getDownloadedFilePath(fileName: string): string {
   runInDirectory('npm', 'install');
   runInDirectory('npm', 'run', 'prettier');
   runInDirectory('git', 'add', '.');
-  runInDirectory('git', 'commit', '-m', '"Initial commit"');
+  runInDirectory('git', 'commit', '-m', 'Initial commit');
 
   console.log(`Project created in ${projectDir}`);
 })().then(() => {
