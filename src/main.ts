@@ -15,11 +15,19 @@ const templateUrl = config.templateUrl;
 const program = new Command();
 
 program.requiredOption('-n, --name <string>', 'The name of the project');
+program.requiredOption(
+  '-r, --routingUrl <string>',
+  'The HTTP endpoint of the subgraph',
+);
+program.requiredOption('-a, --apiType <string>', 'The API type');
 
 program.parse();
 
 const options = program.opts();
 const projectName = options.name;
+const routingUrl = options.routingUrl;
+const apiType = options.apiType;
+const port = new URL(routingUrl).port;
 
 const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
@@ -100,7 +108,10 @@ function getDownloadedFilePath(fileName: string): string {
   const packageJson = require(packageJsonPath);
 
   const newPackageJson = JSON.parse(
-    JSON.stringify(packageJson).replaceAll('{{projectName}}', projectName),
+    JSON.stringify(packageJson)
+      .replaceAll('{{projectName}}', projectName)
+      .replaceAll('{{routingUrl}}', routingUrl)
+      .replaceAll('{{apiType}}', apiType),
   );
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
@@ -108,9 +119,9 @@ function getDownloadedFilePath(fileName: string): string {
   fs.writeFileSync(
     envFilePath,
     `# This will be loaded by dotenv https://www.npmjs.com/package/dotenv
-      SERVER_PORT=4000
-      NODE_ENV=local
-      `,
+SERVER_PORT=${port}
+NODE_ENV=local
+`,
   );
 
   const rawLoggerFile = fs.readFileSync(loggerFilePath, 'utf-8');
