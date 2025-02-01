@@ -4,6 +4,7 @@
     "paths": {
       "@src/*": ["src/*"]
     },
+    "lib": ["ESNext"],
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "module": "CommonJS",

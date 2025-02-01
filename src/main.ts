@@ -100,7 +100,7 @@ function getDownloadedFilePath(fileName: string): string {
   const packageJson = require(packageJsonPath);
 
   const newPackageJson = JSON.parse(
-    JSON.stringify(packageJson).replace('{{projectName}}', projectName),
+    JSON.stringify(packageJson).replaceAll('{{projectName}}', projectName),
   );
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
