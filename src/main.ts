@@ -28,6 +28,7 @@ const projectName = options.name;
 const routingUrl = options.routingUrl;
 const apiType = options.apiType;
 const port = new URL(routingUrl).port;
+const url = new URL(routingUrl).hostname;
 
 const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
@@ -121,6 +122,7 @@ function getDownloadedFilePath(fileName: string): string {
     `# This will be loaded by dotenv https://www.npmjs.com/package/dotenv
 SERVER_PORT=${port}
 NODE_ENV=local
+SERVER_HOST=${url}
 `,
   );
 
