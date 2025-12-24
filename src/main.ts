@@ -27,12 +27,12 @@ const projectName = options.name;
 const routingUrl = options.routingUrl;
 const apiType = options.apiType;
 const port = new URL(routingUrl).port;
-const url = new URL(routingUrl).hostname;
 
 const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
 const zipPath = path.join(projectDir, 'template.zip');
 const packageJsonPath = path.join(projectDir, 'package.json');
+const envExampleFilePath = path.join(projectDir, '.env.example');
 const envFilePath = path.join(projectDir, '.env');
 const loggerFilePath = path.join(projectDir, 'src/utils/logger.mts');
 
@@ -116,14 +116,17 @@ function getDownloadedFilePath(fileName: string): string {
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
 
-  fs.writeFileSync(
-    envFilePath,
-    `# This will be loaded by dotenv https://www.npmjs.com/package/dotenv
-SERVER_PORT=${port}
-NODE_ENV=local
-SERVER_HOST=${url}
-`,
+  // Copy .env.example to .env
+  fs.copyFileSync(envExampleFilePath, envFilePath);
+
+  // Update .env with project-specific values
+  const envContent = fs.readFileSync(envFilePath, 'utf-8');
+  const updatedEnvContent = envContent.replace(
+    /^SERVER_PORT=.*$/m,
+    `SERVER_PORT=${port}`,
   );
+
+  fs.writeFileSync(envFilePath, updatedEnvContent);
 
   const rawLoggerFile = fs.readFileSync(loggerFilePath, 'utf-8');
 
