@@ -1,5 +1,5 @@
 {
-  "name": "@baselinecode/subraph-project",
+  "name": "@baselinecode/subgraph-project",
   "version": "1.0.5",
   "keywords": [
     "node",
@@ -13,7 +13,7 @@
   "author": "Kevin Jakubauskas",
   "type": "commonjs",
   "bin": {
-    "@baselinecode/subraph-project": "./main.js"
+    "@baselinecode/subgraph-project": "./main.js"
   },
   "scripts": {
     "build": "tsx build.mts",
@@ -30,30 +30,30 @@
     "version-bump:patch": "npm version patch --commit-hooks false"
   },
   "dependencies": {
-    "commander": "13.1.0",
+    "commander": "14.0.2",
     "cross-spawn": "7.0.6",
     "yauzl": "3.2.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "3.2.0",
-    "@eslint/js": "9.19.0",
-    "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "@eslint/eslintrc": "3.3.3",
+    "@eslint/js": "9.39.2",
+    "@trivago/prettier-plugin-sort-imports": "6.0.0",
     "@types/cross-spawn": "6.0.6",
-    "@types/node": "22.13.0",
+    "@types/node": "24.10.4",
     "@types/yauzl": "2.10.3",
-    "@typescript-eslint/eslint-plugin": "8.22.0",
-    "@typescript-eslint/parser": "8.22.0",
-    "esbuild": "0.24.2",
-    "eslint": "9.19.0",
-    "eslint-plugin-prettier": "5.2.3",
+    "@typescript-eslint/eslint-plugin": "8.50.1",
+    "@typescript-eslint/parser": "8.50.1",
+    "esbuild": "0.27.2",
+    "eslint": "9.39.2",
+    "eslint-plugin-prettier": "5.5.4",
     "husky": "9.1.7",
-    "prettier": "3.4.2",
-    "prettier-plugin-packagejson": "2.5.8",
-    "tsx": "4.19.2",
-    "typescript": "5.7.3"
+    "prettier": "3.7.4",
+    "prettier-plugin-packagejson": "2.5.20",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": "*",
     "yarn": "Use npm"
   },
