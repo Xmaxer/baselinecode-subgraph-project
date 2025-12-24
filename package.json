@@ -1,6 +1,6 @@
 {
   "name": "@baselinecode/subgraph-project",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "keywords": [
     "node",
     "template",
@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "author": "Kevin Jakubauskas",
-  "type": "commonjs",
+  "type": "module",
   "bin": {
     "@baselinecode/subgraph-project": "./main.js"
   },
@@ -22,8 +22,9 @@
     "prepare": "husky",
     "prettier": "prettier --write .",
     "prettier:ci": "prettier --check .",
-    "publish:npm": "cd dist && npm publish",
-    "test": "rm -rf test-project && tsx src/main.mts -n test-project",
+    "publish:npm": "npm run build && cd dist && npm publish",
+    "test": "rm -rf test-project && tsx src/main.ts -n test-project -r http://localhost:4000/graphql -a subgraph",
+    "test:built": "npm run build && rm -rf test-project && node dist/main.js -n test-project -r http://localhost:4000/graphql -a subgraph",
     "typescript:check": "tsc --project tsconfig.esbuild.json && tsc --project tsconfig.project.json",
     "version-bump:major": "npm version major --commit-hooks false",
     "version-bump:minor": "npm version minor --commit-hooks false",

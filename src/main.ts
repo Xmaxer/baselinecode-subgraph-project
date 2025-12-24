@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { Command } from 'commander';
 import spawn from 'cross-spawn';
 import * as fs from 'node:fs';
@@ -106,7 +105,7 @@ function getDownloadedFilePath(fileName: string): string {
 
   fs.rmSync(zipPath);
 
-  const packageJson = require(packageJsonPath);
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
   const newPackageJson = JSON.parse(
     JSON.stringify(packageJson)
